@@ -9,8 +9,10 @@ module.exports.run = async (bot, message, args) => {
 
     let kick_user = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
 
-    if (kick_user.id === bot.user.id)
-        return message.channel.send(`<:tripleHYPERJOY:662460620356190259>`);
+    if (kick_user.id === bot.user.id) {
+        let emote = message.guild.emojis.cache.find(emoji => emoji.name === "tripleHYPERJOY");
+        return message.react(emote);
+    }
 
     // message.channel.send(`author: <@${message.author.id}>`);
     // message.channel.send(`kick_user: <@${kick_user.id}>`);

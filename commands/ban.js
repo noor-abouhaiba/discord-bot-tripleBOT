@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 
+//!ban {@username} {OPT:reason}
 module.exports.run = async (bot, message, args) => {
     if(!message.member.hasPermission("BAN_MEMBERS"))
         return message.reply("`Invalid entry: you do not have the required permissions to ban users.`");
@@ -9,8 +10,10 @@ module.exports.run = async (bot, message, args) => {
 
     let ban_user = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
 
-    if (ban_user.id === bot.user.id)
-        return message.channel.send(`<:tripleHYPERJOY:662460620356190259>`);
+    if (ban_user.id === bot.user.id) {
+        let emote = message.guild.emojis.cache.find(emoji => emoji.name === "tripleHYPERJOY");
+        return message.react(emote);
+    }
 
     // message.channel.send(`author: <@${message.author.id}>`);
     // message.channel.send(`kick_user: <@${kick_user.id}>`);
@@ -33,7 +36,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor("#ff0000")
         .addField("user:", `${ban_user} with ID **${ban_user.id}**`)
         .addField("banned by:", `<@${message.author.id}> with ID **${message.author.id}**`)
-        .addField("banned in:", message.channel)
+        .addField("in:", message.channel)
         .addField("at time:", message.createdAt)
         .addField("with reason:", ban_reason);
 
