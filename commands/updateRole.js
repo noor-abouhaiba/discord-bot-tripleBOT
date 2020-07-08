@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 
+//!updateRole {user id} {role}
 module.exports.run = async (bot, message, args) => {
     if(!message.member.hasPermission("MANAGE_ROLES"))
         return message.reply("`Invalid entry: you do not have the required permissions to update the role of users.`");
@@ -10,7 +11,6 @@ module.exports.run = async (bot, message, args) => {
     else if (message.mentions.users.size === 0)
         return message.channel.send(" `Invalid entry: invalid target user specified.` ");
 
-    let user = args[0];
     let new_role = args[1];
 
     let role = message.guild.roles.cache.find(role => role.name === new_role);

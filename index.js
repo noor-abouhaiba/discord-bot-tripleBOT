@@ -79,8 +79,16 @@ bot.on("ready", async () => {
     //TODO:
     //WRECKnation guild id: 107106811714220032
     //test-server guild id: 696909516976947201
+    // const guild = bot.guilds.cache.first();
     const guild = bot.guilds.cache.get("696909516976947201");
-    const role = guild.roles.cache.find(role => role.name === "tripleBOT");
+    // const role = guild.roles.cache.find(role => role.name === "tripleBOT");
+    // gets all members in the server
+    // guild.members.fetch().then( function (resp) {
+    //     console.log(resp);
+    // });
+    console.log(guild.members.fetch());
+
+    bot.commands.get("getLiveInfo").run(bot, guild);
 });
 
 bot.on('message', async message => {
@@ -97,8 +105,6 @@ bot.on('message', async message => {
 
     if (command_file) {
         command_file.run(bot, message, args);
-    } else if (command.charAt(0) === prefix) {
-        message.channel.send("`Invalid command: command does not exist.`");
     }
 });
 

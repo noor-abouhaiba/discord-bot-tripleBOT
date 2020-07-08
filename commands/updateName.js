@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 
+//!updateName {user id} {new nickname}
 module.exports.run = async (bot, message, args) => {
     if(!message.member.hasPermission("MANAGE_NICKNAMES"))
         return message.reply("`Invalid entry: you do not have the required permissions to update the nickname of users.`");

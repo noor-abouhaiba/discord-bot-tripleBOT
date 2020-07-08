@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 
+// !kick {@username} {OPT:reason}
 module.exports.run = async (bot, message, args) => {
     if(!message.member.hasPermission("KICK_MEMBERS"))
         return message.reply("**Invalid entry**: you do not have the required permissions to kick users.");

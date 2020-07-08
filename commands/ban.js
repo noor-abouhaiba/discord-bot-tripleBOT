@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 
-//!ban {@username} {OPT:reason}
+// !ban {@username} {OPT:reason}
 module.exports.run = async (bot, message, args) => {
     if(!message.member.hasPermission("BAN_MEMBERS"))
         return message.reply("`Invalid entry: you do not have the required permissions to ban users.`");
@@ -15,8 +15,6 @@ module.exports.run = async (bot, message, args) => {
         return message.react(emote);
     }
 
-    // message.channel.send(`author: <@${message.author.id}>`);
-    // message.channel.send(`kick_user: <@${kick_user.id}>`);
     if (!message.member.hasPermission("BAN_MEMBERS"))
         return message.channel.send("`Unable to ban target user.`");
 
