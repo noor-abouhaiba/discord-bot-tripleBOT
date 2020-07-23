@@ -36,8 +36,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor("#ff0000")
         .addField("user:", `${kick_user} with ID **${kick_user.id}**`)
         .addField("kicked by:", `<@${message.author.id}> with ID **${message.author.id}**`)
-        .addField("kicked in:", message.channel)
-        .addField("at time:", message.createdAt)
+        .addField("on:", message.createdAt)
         .addField("with reason:", kick_reason);
 
     let kick_channel = message.guild.channels.cache.find(channel => channel.name === "incidents");

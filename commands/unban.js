@@ -27,8 +27,7 @@ function createDiscordEmbed(message) {
         .setColor("#ff0000")
         .addField("user:", `${unban_user.user.username} with ID **${unban_user.user.id}**`)
         .addField("unbanned by:", `<@${message.author.id}> with ID **${message.author.id}**`)
-        .addField("in:", message.channel)
-        .addField("at time:", message.createdAt)
+        .addField("on:", message.createdAt)
         .addField("with reason:", unban_reason);
 
     let unban_channel = message.guild.channels.cache.find(channel => channel.name === "incidents");

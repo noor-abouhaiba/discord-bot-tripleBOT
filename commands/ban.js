@@ -34,8 +34,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor("#ff0000")
         .addField("user:", `${ban_user} with ID **${ban_user.id}**`)
         .addField("banned by:", `<@${message.author.id}> with ID **${message.author.id}**`)
-        .addField("in:", message.channel)
-        .addField("at time:", message.createdAt)
+        .addField("on:", message.createdAt)
         .addField("with reason:", ban_reason);
 
     let ban_channel = message.guild.channels.cache.find(channel => channel.name === "incidents");

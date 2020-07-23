@@ -48,12 +48,16 @@ function buildLiveEmbed(title, game) {
         .setFooter(user, embed_image);
 }
 
+function getDate() {
+    const date = new Date();
+
+    return (`[` + `${leadingZero(date.getMonth()+1)}/${leadingZero(date.getDate())}/${date.getFullYear()} `
+        + `${leadingZero(date.getHours())}:${leadingZero(date.getMinutes())}:${leadingZero(date.getSeconds())} PST] `);
+}
+
 function sendLiveNotification(resp) {
     if (!live_channel.lastMessage) {
-        const date = new Date();
-        console.log(`[` + `${leadingZero(date.getMonth()+1)}/${leadingZero(date.getDate())}/${date.getFullYear()} `
-                    + `${leadingZero(date.getHours())}:${leadingZero(date.getMinutes())}:${leadingZero(date.getSeconds())} PST`
-                    + `] ${user} is online`);
+        console.log(getDate() + `${user} is online`);
 
         live_info = resp.stream.created_at;
         buildLiveEmbed(resp.stream.channel.status, resp.stream.game);
@@ -63,10 +67,7 @@ function sendLiveNotification(resp) {
 
 function deleteLiveNotification() {
     if (live_channel.lastMessage) {
-        const date = new Date();
-        console.log(`[` + `${leadingZero(date.getMonth()+1)}/${leadingZero(date.getDate())}/${date.getFullYear()} `
-                    + `${leadingZero(date.getHours())}:${leadingZero(date.getMinutes())}:${leadingZero(date.getSeconds())} PST`
-                    + `] ${user} is offline`);
+        console.log(getDate() + `${user} is offline`);
 
         live_channel.lastMessage.delete();
     }}

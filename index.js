@@ -11,13 +11,14 @@ const path = require("path");
 const commands_path = path.join(__dirname, "commands");
 const utility_path = path.join(__dirname, "utility");
 const twitch_path = path.join(__dirname, "twitch");
+const connections_path = path.join(__dirname, "connections");
 
-const modules = ["commands", "utility", "twitch"];
+console.log("Commands filepath: \t" + commands_path);
+console.log("Utility filepath: \t" + utility_path);
+console.log("Twitch filepath: \t" + twitch_path);
+console.log("Connections filepath: \t" + connections_path);
 
-console.log("Commands filepath: " + commands_path);
-console.log("Utility filepath: " + utility_path);
-console.log("Utility filepath: " + twitch_path);
-
+// Load commands directory .js files
 fs.readdir(commands_path, (err, files) => {
     if (err)
         console.log(err);
@@ -36,6 +37,7 @@ fs.readdir(commands_path, (err, files) => {
     });
 });
 
+// Load utility directory .js files
 fs.readdir(utility_path, (err, files) => {
     if (err)
         console.log(err);
@@ -54,6 +56,7 @@ fs.readdir(utility_path, (err, files) => {
     });
 });
 
+// Load twitch directory .js files
 fs.readdir(twitch_path, (err, files) => {
     if (err)
         console.log(err);
@@ -67,6 +70,25 @@ fs.readdir(twitch_path, (err, files) => {
     let props;
     js_file.forEach((f, i) => {
         props = require(`./twitch/${f}`);
+        console.log(`${f} loaded.`);
+        bot.commands.set(props.help.name, props);
+    });
+});
+
+// Load connections directory .js files
+fs.readdir(connections_path, (err, files) => {
+    if (err)
+        console.log(err);
+
+    let js_file = files.filter(f => f.split(".").pop() === "js");
+    console.log(js_file);
+    if (js_file.length <= 0) {
+        console.log("Could not locate connections directory.");
+        return;
+    }
+    let props;
+    js_file.forEach((f, i) => {
+        props = require(`./connections/${f}`);
         console.log(`${f} loaded.`);
         bot.commands.set(props.help.name, props);
     });
