@@ -4,6 +4,7 @@ const Discord = require("discord.js");
 
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
+bot.utility = new Discord.Collection();
 bot.aliases = new Discord.Collection();
 const fs = require("fs");
 const path = require("path");
@@ -12,11 +13,15 @@ const commands_path = path.join(__dirname, "commands");
 const utility_path = path.join(__dirname, "utility");
 const twitch_path = path.join(__dirname, "twitch");
 const connections_path = path.join(__dirname, "connections");
+const dynamodb_path = path.join(__dirname, "connections/dynamo-db");
+
+let user_map = new Map();
 
 console.log("Commands filepath: \t" + commands_path);
 console.log("Utility filepath: \t" + utility_path);
 console.log("Twitch filepath: \t" + twitch_path);
 console.log("Connections filepath: \t" + connections_path);
+console.log("DynamoDB filepath: \t" + dynamodb_path);
 
 // Load commands directory .js files
 fs.readdir(commands_path, (err, files) => {
@@ -94,6 +99,25 @@ fs.readdir(connections_path, (err, files) => {
     });
 });
 
+// Load connections/dynamo-db directory .js files
+fs.readdir(dynamodb_path, (err, files) => {
+    if (err)
+        console.log(err);
+
+    let js_file = files.filter(f => f.split(".").pop() === "js");
+    console.log(js_file);
+    if (js_file.length <= 0) {
+        console.log("Could not locate connections/dynamo-db directory.");
+        return;
+    }
+    let props;
+    js_file.forEach((f, i) => {
+        props = require(`./connections/dynamo-db/${f}`);
+        console.log(`${f} loaded.`);
+        bot.utility.set(props.help.name, props);
+    });
+});
+
 bot.on("ready", async () => {
     console.log(`${bot.user.username} is online`);
     bot.user.setActivity("with WRECKnation");
@@ -108,8 +132,11 @@ bot.on("ready", async () => {
     // guild.members.fetch().then( function (resp) {
     //     console.log(resp);
     // });
-    console.log(guild.members.fetch());
+    (await guild.members.fetch()).forEach(member => {
+        user_map.set(member.user.id, member.user.username);
+    });
 
+    bot.utility.get("setup-table-entries").run(bot, user_map);
     bot.commands.get("getLiveInfo").run(bot, guild);
 });
 
@@ -128,6 +155,14 @@ bot.on('message', async message => {
     if (command_file) {
         command_file.run(bot, message, args);
     }
+});
+
+bot.on("guildMemberAdd", async member => {
+    bot.utility.get("create-entry").run(bot, member);
+});
+
+bot.on("guildMemberRemove", async member => {
+    bot.utility.get("delete-entry").run(bot, member);
 });
 
 bot.login(tokenconfig.token);
