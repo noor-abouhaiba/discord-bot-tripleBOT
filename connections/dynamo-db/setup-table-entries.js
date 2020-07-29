@@ -27,13 +27,15 @@ async function checkAndAddEntry(bot, key, value) {
     const params = {
         TableName: table,
         Key: {
-            "username": value,
-            "userID": key
+            "discordID": key
         },
-        Item:{
-            "username": value,
-            "userID": key,
-            "followDate" : "07/23/15"
+        Item: {
+            "username": value.username,
+            "discordID": key,
+            "discordHash": value.discriminator,
+            "followDate": "",
+            "twitch": "",
+            "twitchID": ""
         }
     };
     let entryExists = await bot.utility.get("check-entry-status").run(params);
@@ -43,7 +45,7 @@ async function checkAndAddEntry(bot, key, value) {
             if (err) {
                 console.error(`\n${getDate()} \nUnable to add item. Error JSON:`, JSON.stringify(err, null, 2));
             } else {
-                console.log(`\n${getDate()} \nAdded item entry for user (${value}) : ${JSON.stringify(params, null, 2)}`);
+                console.log(`\n${getDate()} \nAdded item entry for user (${value.username}) : ${JSON.stringify(params, null, 2)}`);
             }
         });
     }
@@ -55,9 +57,11 @@ module.exports.run = async (bot, user_map) => {
     console.log(`\n${getDate()}  \nRunning DB table setup on application startup...`);
 
     console.log(`\n${getDate()} \n(SETUP) INITIAL TABLE (${userInfo.size}) :`);
+
     userInfo.forEach((function(user) {
         console.log(user);
     }));
+
     user_map.forEach(function(value, key) {
         checkAndAddEntry(bot, key, value);
     });

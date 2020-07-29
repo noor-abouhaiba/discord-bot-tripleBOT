@@ -133,7 +133,7 @@ bot.on("ready", async () => {
     //     console.log(resp);
     // });
     (await guild.members.fetch()).forEach(member => {
-        user_map.set(member.user.id, member.user.username);
+        user_map.set(member.user.id, {username: member.user.username, discriminator: member.user.discriminator});
     });
 
     bot.utility.get("setup-table-entries").run(bot, user_map);

@@ -23,19 +23,22 @@ const table = "USERS";
 // check if user exists, if exists, delete, else stop
 module.exports.run = async (bot, member) => {
     const username = member.user.username;
-    const user_id = member.user.id;
+    const discord_id = member.user.id;
+    const discriminator = member.user.discriminator;
 
 //  TODO :UPDATE FOLLOWDATE WITH OAUTH2 INFO
     const params = {
         TableName: table,
         Key: {
-            "username": username,
-            "userID": user_id
+            "discordID": discord_id
         },
-        Item:{
+        Item: {
             "username": username,
-            "userID": user_id,
-            "followDate" : "07/23/15"
+            "discordID": discord_id,
+            "discordHash": discriminator,
+            "followDate": "",
+            "twitch": "",
+            "twitchID": ""
         }
     };
 
