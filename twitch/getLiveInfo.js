@@ -1,10 +1,9 @@
 const Discord = require("discord.js");
 const botconfig = require("./../config/botConfig.json");
+const twitch_config = require("./../config/twitchConfig.json");
 const rp = require('request-promise');
 const _ = require('lodash');
 
-// DynamoDB for database work
-let channel_id = '';
 let stream_info = '';
 let live_info = '';
 let embed_image = '';
@@ -19,11 +18,11 @@ function obtainID() {
         uri: 'https://api.twitch.tv/kraken/users?login=xqcOW',
         headers: {
             'Client-ID': botconfig.client_id,
-            'Accept': botconfig.twitch_api
+            'Accept': twitch_config.twitch_api
         },
         json: true
     }).then( function (resp) {
-        channel_id = resp.users[0]._id;
+        twitch_config.channel_id = resp.users[0]._id;
         embed_image = resp.users[0].logo;
         user = resp.users[0].display_name;
         obtainStreamInfo();
@@ -73,12 +72,12 @@ function deleteLiveNotification() {
     }}
 
 function obtainStreamInfo() {
-    const uri = 'https://api.twitch.tv/kraken/streams/' + channel_id;
+    const uri = 'https://api.twitch.tv/kraken/streams/' + twitch_config.channel_id;
     rp({
         uri: uri,
         headers: {
             'Client-ID': botconfig.client_id,
-            'Accept': botconfig.twitch_api
+            'Accept': twitch_config.twitch_api
         },
         json: true
     }).then( function (resp) {
@@ -93,10 +92,10 @@ function obtainStreamInfo() {
 
 function getOauth() {
     rp({
-        uri: 'https://api.twitch.tv/kraken/channels/' + channel_id + "/subscriptions",
+        uri: 'https://api.twitch.tv/kraken/channels/' + twitch_config.channel_id + "/subscriptions",
         headers: {
             'Client-ID': botconfig.client_id,
-            'Accept': botconfig.twitch_api,
+            'Accept': twitch_config.twitch_api,
             'Authorization': 'https://discordapp.com/api/oauth2/authorize?client_id=696885663714377758&permissions=8&scope=bot'
         },
         json: true
@@ -107,10 +106,10 @@ function getOauth() {
 
 function obtainSubs() {
     rp({
-        uri: 'https://api.twitch.tv/kraken/channels/' + channel_id + "/subscriptions",
+        uri: 'https://api.twitch.tv/kraken/channels/' + twitch_config.channel_id + "/subscriptions",
         headers: {
             'Client-ID': botconfig.client_id,
-            'Accept': botconfig.twitch_api,
+            'Accept': twitch_config.twitch_api,
             'Authorization': 'https://discordapp.com/api/oauth2/authorize?client_id=696885663714377758&permissions=8&scope=bot'
         },
         json: true

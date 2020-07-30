@@ -1,4 +1,6 @@
 *.json
+*.env
+.DS_Store
 node_modules/
 resources/
 config/

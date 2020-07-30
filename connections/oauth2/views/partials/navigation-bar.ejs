@@ -1,0 +1,21 @@
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" style="font-family: sans-serif">
+            <h1>Welcome back, <b><%= username %>#<%= discriminator%></b></h1>
+        </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+        </div>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    <form action="/auth/logout">
+                        <button class="button is-primary is-rounded my-custom-logout-button" type="submit">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
