@@ -23,6 +23,7 @@ function obtainID() {
         json: true
     }).then( function (resp) {
         twitch_config.channel_id = resp.users[0]._id;
+        console.log("STREAM CHANNEL ID SET: " + twitch_config.channel_id);
         embed_image = resp.users[0].logo;
         user = resp.users[0].display_name;
         obtainStreamInfo();

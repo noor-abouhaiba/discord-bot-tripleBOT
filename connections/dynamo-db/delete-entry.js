@@ -26,7 +26,6 @@ module.exports.run = async (bot, member) => {
     const discord_id = member.user.id;
     const discriminator = member.user.discriminator;
 
-//  TODO :UPDATE FOLLOWDATE WITH OAUTH2 INFO
     const params = {
         TableName: table,
         Key: {

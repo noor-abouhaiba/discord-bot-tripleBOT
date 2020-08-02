@@ -3,9 +3,9 @@ const botConfig = require('./../../../config/botConfig');
 const passport = require('passport');
 const db_config = require("./../../../config/dynamo-db-config");
 const AWS = require("aws-sdk");
+const storeTwitchFollow = require('./../../../twitch/getFollowDate');
 
-// TODO?????
-const dbAPI = require("./../../dynamo-db/create-entry");
+let user = require('./../routes/profiletest');
 
 let params = "";
 AWS.config.update({
@@ -18,7 +18,14 @@ const table = "USERS";
 
 passport.serializeUser((user, done) => {
     console.log("Serializing");
-    done(null, user.Item.discordID);
+    console.log("CHECK " + JSON.stringify(user, null, 2));
+    try {
+        done(null, user.Item.discordID);
+    }
+    catch (err) {
+        console.log(err);
+        done(null, user.id);
+    }
 });
 
 passport.deserializeUser(async (id, done) => {
@@ -46,6 +53,7 @@ passport.use(new DiscordStrategy({
         Item: {
             "username": profile.username,
             "discordID": profile.id,
+            "discordHash": profile.discriminator,
             "followDate": "",
             "twitch": "",
             "twitchID": ""
@@ -53,35 +61,61 @@ passport.use(new DiscordStrategy({
     };
 
     try {
+        user.userProfile = profile;
         // check if user exists in guild, if yes then update their entry with their twitch id
-        globalUserProfile = profile;
         console.log("PROFILE: " + profile + " " + profile.avatar);
         profile.guilds.forEach(guild => {
             // TODO: CHANGE GUILD ID TO MATCH CORRECT SERVER
            if (guild.id === '696909516976947201') {
-               globalGuildFound = "VERIFIED";
+               user.guildFound = "VALID";
                console.log(guild);
            }
         });
 
+        let connectionToParse = "NOT SYNCED";
         profile.connections.forEach(connection => {
             if (connection.type === "twitch") {
-                globalTwitchConnection = connection;
-                console.log(connection);
+                connectionToParse = connection;
             }
         });
-        // TODO: TO UPDATE ENTRY DO THIS
-            //await docClient.put(params).promise();
+        let result = null;
 
-        let result = await docClient.get(params).promise();
+        if (connectionToParse !== "NOT SYNCED") {
+            params.Item.twitch = connectionToParse.name;
+            params.Item.twitchID = connectionToParse.id;
+
+            await docClient.put(params).promise();
+
+            let twitchID = params.Item.twitchID;
+            console.log("BEFORE CALLING TWITCHID IS: " + twitchID);
+
+            await storeTwitchFollow.run(profile.id, twitchID);
+
+            result = await docClient.get(params).promise();
+
+            console.log("RESULT 2: " + JSON.stringify(result.Item, null, 2));
+
+            user.twitchConnection = connectionToParse;
+            user.twitchFollowDate = result.Item.followDate;
+        }
+        else {
+            params.Item.twitch = params.Item.twitchID = params.Item.followDate ="NOT SYNCED";
+            user.twitchConnection = {
+                name: "NOT SYNCED"
+            };
+        }
+
+        await docClient.put(params).promise();
+
+        result = await docClient.get(params).promise();
 
         if (result) {
-            // console.log(result.Item.username + " " + result.Item.userID + " " + result.Item.followDate);
-            // console.log(profile.connections);
+            // console.log("RESULT AFTER UPDATING DB: " + result.Item.twitch, + " : " + result.Item.twitchID + " : " + result.Item.followDate);
             done(null, result);
         }
         else {
             done(null, profile);
+            // done(null, profile);
         }
     }
     catch (err) {

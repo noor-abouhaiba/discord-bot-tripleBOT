@@ -1,11 +1,15 @@
 const router = require('express').Router();
+const profile = require('./profiletest');
 
-// Global may not work, best to store this in the DB
-global.globalTwitchConnection = null;
-global.globalUserProfile;
-global.globalGuildFound = "INVALID";
+function getDate(followDate) {
+    const date = new Date(followDate);
 
-const guildName = "WRECKnation";
+    return (`${leadingZero(date.getMonth()+1)}/${leadingZero(date.getDate())}/${date.getFullYear()}`);
+}
+
+function leadingZero(num){
+    return (num < 10) ? ("0" + num) : num;
+}
 
 // Middleware function that is run before the user is sent back data,
 // run before below router.get(...) body is run
@@ -21,17 +25,28 @@ function userIsAuthorized(req, res, next) {
     }
 }
 
-router.get('/', userIsAuthorized, (req, res) => {
-    console.log("TEST: " + req.user.Item.username);
-    console.log(globalUserProfile.icon);
+router.get('/', userIsAuthorized, async (req, res) => {
+    if (req.user.Item.followDate === "") {
+        setTimeout(() => {}, 5000);
+    }
+    const followDate = req.user.Item.twitchFollowDate;
+
+    let formattedDate;
+    if (followDate === null) {
+        formattedDate = "NOT FOLLOWING";
+    }
+    else {
+        formattedDate = await getDate(followDate);
+    }
     res.render('dashboard', {
-        username        : req.user.Item.username,
-        userID          : globalUserProfile.id,
-        userAvatar      : globalUserProfile.avatar,
-        discriminator   : req.user.Item.discordHash,
-        guild           : guildName,
-        verification    : globalGuildFound,
-        twitch          : globalTwitchConnection.name
+        // username        : req.user.Item.username,
+        // userID          : profile.userProfile.id,
+        // userAvatar      : profile.userProfile.avatar,
+        // discriminator   : req.user.Item.discordHash,
+        // guild           : profile.guildName,
+        // verification    : profile.guildFound,
+        // twitch          : req.user.Item.twitch,
+        // followDate      : formattedDate
     });
 });
 
