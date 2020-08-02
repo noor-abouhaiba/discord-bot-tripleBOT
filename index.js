@@ -138,6 +138,7 @@ bot.on("ready", async () => {
 
     bot.utility.get("setup-table-entries").run(bot, user_map);
     bot.commands.get("getLiveInfo").run(bot, guild);
+    bot.commands.get("updateFollowRole").run(bot);
 });
 
 bot.on('message', async message => {

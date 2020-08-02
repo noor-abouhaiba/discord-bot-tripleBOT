@@ -23,7 +23,6 @@ const table = "USERS";
 // Check if the current user exists in the DB, if not add them, else stop
 async function checkAndAddEntry(bot, key, value) {
 
-//  TODO: UPDATE FOLLOWDATE WITH OAUTH2 INFO
     const params = {
         TableName: table,
         Key: {

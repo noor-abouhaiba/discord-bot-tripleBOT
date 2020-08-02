@@ -19,8 +19,10 @@ async function scanEntireTable() {
     let result = await docClient.scan(params).promise();
     let userInfo = new Map();
 
+    console.log(result);
     result.Items.forEach(function(user) {
-        userInfo.set(user.userID, {userID : user.userID, username: user.username, followDate: user.followDate});
+        userInfo.set(user.discordID, {discordID : user.discordID, username: user.username, discordHash: user.discordHash,
+                                    twitch: user.twitch, twitchID: user.twitchID, followDate: user.followDate});
     });
 
     return userInfo;
