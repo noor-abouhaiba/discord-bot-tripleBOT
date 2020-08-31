@@ -20,11 +20,13 @@ tripleBOT features integrations with the Twitch API and the use of OAuth2.0 auth
 
 ### Demos
 
-<video src="/Users/noorabouhaiba/Desktop/Screen Recording 2020-08-30 at 7.43.53 PM.mov"></video>
+[![Demo1](http://img.youtube.com/vi/kw3hsDrF8d4/0.jpg)](http://www.youtube.com/watch?v=kw3hsDrF8d4 "Demo1")
+
+
 
 Here is a small demonstration of the text based commands tripleBOT offers. Many of the commands check the permissions of the sender and validate whether or not the sender has access to those actions based on their role in the server. 
 
-<video src="/Users/noorabouhaiba/Desktop/Screen Recording 2020-08-30 at 8.56.30 PM.mov"></video>
+[![Demo2](http://img.youtube.com/vi/Cxc345X7tDI/0.jpg)](http://www.youtube.com/watch?v=Cxc345X7tDI "Demo2")
 
 Here we see how tripleBOT operates on startup. 
 
@@ -32,7 +34,7 @@ Initially we notice that the current channel we are in, "live-now", has no messa
 
 When users leave the server tripleBOT is signaled and their stored entry in the DynamoDB table is wiped, this also applies to when new users join the server. When new users join the server, tripleBOT is signaled and creates an entry for the specified user in the DynamoDB table so that their information is easy to access later down the line. 
 
-<video src="/Users/noorabouhaiba/Desktop/Screen Recording 2020-08-30 at 9.06.47 PM.mov"></video>
+[![Demo3](http://img.youtube.com/vi/CYegnu_B7c0/0.jpg)](http://www.youtube.com/watch?v=CYegnu_B7c0 "Demo3")
 
 Lastly, we see how tripleBOT uses OAuth2.0.
 
