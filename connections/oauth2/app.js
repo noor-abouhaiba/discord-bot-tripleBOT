@@ -29,7 +29,7 @@ app.use(session({
         maxAge: 60000 * 60 * 24
     },
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     // store: dynamoDBStore({
     //     table: 'sessions',
     //     AWSConfigPath: AWS,

@@ -6,10 +6,10 @@ module.exports.run = async (bot, message, args) => {
         return message.reply("`Invalid entry: you do not have the required permissions to update the role of users.`");
 
     if (message.mentions.users.size > 1)
-        return message.channel.send(`Invalid entry: cannot update multiple users.`);
+        return message.channel.send("`Invalid entry: cannot update multiple users.`");
 
     else if (message.mentions.users.size === 0)
-        return message.channel.send(" `Invalid entry: invalid target user specified.` ");
+        return message.channel.send("`Invalid entry: invalid target user specified.`");
 
     let new_role = args[1];
 

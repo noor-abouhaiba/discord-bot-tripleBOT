@@ -6,10 +6,10 @@ module.exports.run = async (bot, message, args) => {
         return message.reply("`Invalid entry: you do not have the required permissions to update the nickname of users.`");
 
     if (message.mentions.users.size > 1)
-        return message.channel.send(`Invalid entry: cannot update multiple users.`);
+        return message.channel.send("`Invalid entry: cannot update multiple users.`");
 
     else if (message.mentions.users.size === 0)
-        return message.channel.send(" `Invalid entry: invalid target user specified.` ");
+        return message.channel.send("`Invalid entry: invalid target user specified.`");
 
     let user_info = message.guild.member(message.mentions.users.first());
     console.log(user_info);
@@ -20,7 +20,7 @@ module.exports.run = async (bot, message, args) => {
     let nickname = args;
     console.log(nickname);
     if (!nickname)
-        return message.channel.send(`Invalid nickname, input cannot be empty`);
+        return message.channel.send("`Invalid nickname, input cannot be empty`");
 
     user_info.setNickname(nickname);
 };

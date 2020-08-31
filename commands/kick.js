@@ -3,10 +3,10 @@ const Discord = require("discord.js");
 // !kick {@username} {OPT:reason}
 module.exports.run = async (bot, message, args) => {
     if(!message.member.hasPermission("KICK_MEMBERS"))
-        return message.reply("**Invalid entry**: you do not have the required permissions to kick users.");
+        return message.reply("`**Invalid entry**: you do not have the required permissions to kick users.`");
 
     if (!message.mentions.users.size)
-        return message.reply("**Invalid entry**: no target user specified.");
+        return message.reply("`**Invalid entry**: no target user specified.`");
 
     let kick_user = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
 
@@ -17,14 +17,12 @@ module.exports.run = async (bot, message, args) => {
 
     // message.channel.send(`author: <@${message.author.id}>`);
     // message.channel.send(`kick_user: <@${kick_user.id}>`);
-    if (!message.member.hasPermission("KICK_MEMBERS"))
-        return message.channel.send("Unable to kick target user.");
 
     if (message.member.hasPermission("KICK_MEMBERS") && kick_user.hasPermission("KICK_MEMBERS" || "ADMINISTRATOR"))
         return message.channel.send(`**Command conflict**: Target user shares same role precedence as <@${message.author.id}>`);
 
     if (!kick_user)
-        return message.channel.send("Target user not found.");
+        return message.channel.send("`Target user not found.`");
 
     let kick_reason = args.join(" ").slice(22);
 
@@ -42,7 +40,7 @@ module.exports.run = async (bot, message, args) => {
     let kick_channel = message.guild.channels.cache.find(channel => channel.name === "incidents");
 
     if (!kick_channel)
-        return message.channel.send("Unable to find log channel.");
+        return message.channel.send("`Unable to find log channel.`");
 
     message.guild.member(kick_user).kick(kick_reason);
     kick_channel.send(kick_embed);
