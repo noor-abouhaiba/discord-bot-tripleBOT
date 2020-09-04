@@ -4,7 +4,7 @@ tripleBOT is a Discord utility bot written in Javascript using Node.js, DynamoDB
 
 ### Problem
 
-Administrators manually update hundreds of user's roles manually while crossreferencing which role the specific user should receive by referenced multiple sources.
+Administrators manually update hundreds of user's roles manually while referencing which role the specific user should receive by validating this information through Twitch and Discord.
 
 ### Solution
 
