@@ -2,6 +2,14 @@
 
 tripleBOT is a Discord utility bot written in Javascript using Node.js, DynamoDB, and Express with the purpose of delegating manual actions away from the user and to automate otherwise tedious tasks through the use of the Discord and Twitch APIs. 
 
+### Problem
+
+Administrators manually update hundreds of user's roles manually while crossreferencing which role the specific user should receive by referenced multiple sources.
+
+### Solution
+
+ I took on the role of developing a bot that stores all necessary information that is referenced in a database associated with its respective user and references it on a set interval while checking if any updates should be made to the user's "ego" role automatically.
+
 ### Motivation
 
 As a person whose primary form of communication is done through Discord, I've found myself wishing that the community I interact with most utilized a Discord bot to its advantage. Since this community doesn't utilize the features that a Discord bot could offer, I decided to create my own bot, specifically catered to the wants, needs, and quality of life of the administrators and users of this community. Automating the most tedious, and frequent actions the community adminisitrators are required to deal with manually helps delegate this burden away from the administrators of the community and to tripleBOT . I created tripleBOT with these ideas in mind with plans to maintain and continue its development to adjust and better cater to these needs. The main goal with this project has been, and will continue to be, automating tedious actions typically done manually with the help of various APIs and commands available for users to execute at a whim.
