@@ -6,7 +6,7 @@ let unban_reason = '';
 
 function checkSenderPerms(message) {
     if(!message.member.hasPermission("BAN_MEMBERS"))
-        return message.reply("**Invalid entry**: you do not have the required permissions to unban users.");
+        return message.reply("`**Invalid entry**: you do not have the required permissions to unban users.`");
 }
 
 function parseMessage (bot, message, args) {
@@ -27,23 +27,22 @@ function createDiscordEmbed(message) {
         .setColor("#ff0000")
         .addField("user:", `${unban_user.user.username} with ID **${unban_user.user.id}**`)
         .addField("unbanned by:", `<@${message.author.id}> with ID **${message.author.id}**`)
-        .addField("in:", message.channel)
-        .addField("at time:", message.createdAt)
+        .addField("on:", message.createdAt)
         .addField("with reason:", unban_reason);
 
     let unban_channel = message.guild.channels.cache.find(channel => channel.name === "incidents");
 
     if (!unban_channel)
-        return message.channel.send("Unable to find log channel.");
+        return message.channel.send("`Unable to find log channel.`");
 
     unban_channel.send(unban_embed);
 }
 
 function unban(message, args) {
-    console.log("in unban and unban_user: " + unban_user);
+    // console.log("in unban and unban_user: " + unban_user);
     if (unban_user) {
-        message.channel.send("user: " + unban_user);
-        message.channel.send("reason: " + unban_reason);
+        // message.channel.send("user: " + unban_user);
+        // message.channel.send("reason: " + unban_reason);
         if (!unban_reason) unban_reason = "*No given reason.*";
 
         // Check if it's a user ID
@@ -66,7 +65,7 @@ function unban(message, args) {
             catch (err) { return message.channel.send(`Could not locate user **${args[0]}** from ID argument.`); }
         }
     } else {
-        return message.channel.send(`No users found. Please specify a User ID.`);
+        return message.channel.send("`No users found. Please specify a User ID.`");
     }
 }
 //!unban {user id} {OPT:reason}

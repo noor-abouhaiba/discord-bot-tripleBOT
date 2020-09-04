@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 
-//!ban {@username} {OPT:reason}
+// !ban {@username} {OPT:reason}
 module.exports.run = async (bot, message, args) => {
     if(!message.member.hasPermission("BAN_MEMBERS"))
         return message.reply("`Invalid entry: you do not have the required permissions to ban users.`");
@@ -15,8 +15,6 @@ module.exports.run = async (bot, message, args) => {
         return message.react(emote);
     }
 
-    // message.channel.send(`author: <@${message.author.id}>`);
-    // message.channel.send(`kick_user: <@${kick_user.id}>`);
     if (!message.member.hasPermission("BAN_MEMBERS"))
         return message.channel.send("`Unable to ban target user.`");
 
@@ -36,8 +34,7 @@ module.exports.run = async (bot, message, args) => {
         .setColor("#ff0000")
         .addField("user:", `${ban_user} with ID **${ban_user.id}**`)
         .addField("banned by:", `<@${message.author.id}> with ID **${message.author.id}**`)
-        .addField("in:", message.channel)
-        .addField("at time:", message.createdAt)
+        .addField("on:", message.createdAt)
         .addField("with reason:", ban_reason);
 
     let ban_channel = message.guild.channels.cache.find(channel => channel.name === "incidents");
